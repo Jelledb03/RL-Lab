@@ -1,0 +1,10 @@
+import collections
+max_4_items = collections.deque(maxlen=4)
+print(max_4_items)
+max_4_items.append(5)
+max_4_items.append(3)
+max_4_items.append(2)
+max_4_items.append(3)
+print(max_4_items)
+max_4_items.append(2)
+print(max_4_items)
