@@ -25,8 +25,11 @@ if __name__ == "__main__":
             ########################################
             # Parameters Agent
             ########################################
-            "lr": 1,
+            "lr": 0.5,
             # "lr": tune.grid_search([0.5, 1, 2]),
+            # gamma is the discount value
+            "gamma": 0.9,
+            # "gamma": tune.grid_search([0.7, 1, 0.9]),
             "buffer_size": 4000,
 
             "dqn_model": {
