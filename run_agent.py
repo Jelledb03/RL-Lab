@@ -14,10 +14,10 @@ if __name__ == "__main__":
         DQNTrainer,
         # checkpoint_freq=10,
         checkpoint_at_end=True,
-        stop={"episodes_total": 2000},
+        stop={"episode_reward_mean": 100},
         config={
             "num_gpus": 0,
-            "num_workers": 1,
+            "num_workers": 2,
             "framework": "torch",
             "rollout_fragment_length": 50,
             "env": "CartPole-v1",
@@ -25,10 +25,10 @@ if __name__ == "__main__":
             ########################################
             # Parameters Agent
             ########################################
-            "lr": 0.5,
+            "lr": 0.001,
             # "lr": tune.grid_search([0.5, 1, 2]),
             # gamma is the discount value
-            "gamma": 0.9,
+            "gamma": 0.7,
             # "gamma": tune.grid_search([0.7, 1, 0.9]),
             "buffer_size": 4000,
 
