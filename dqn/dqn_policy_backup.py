@@ -99,27 +99,29 @@ class DQNPolicy(Policy):
             if not done:
                 # Calculates both q_values
                 both_q_values = self.dqn_model(obs)
-                # Going to loop across all q_values in a state
-                for curr_q_value in both_q_values:
-                    # next_q_values = self.dqn_model(next_obs)
-                    # Calculate next q values and find the better q_value
-                    next_best_q_value = torch.max(self.dqn_model(next_obs))
-                    # print(curr_q_value)
-                    better_q_value = curr_q_value + self.lr * (reward + self.gamma * next_best_q_value - curr_q_value)
-                    # print(better_q_value)
-                    curr_q_values[counter] = curr_q_value
-                    better_q_values[counter] = better_q_value
-                    counter += 1
+                curr_q_value = torch.max(both_q_values)
+                # Calculate next q values and find the better q_value
+                next_best_q_value = torch.max(self.dqn_model(next_obs))
+                # print(curr_q_value)
+                better_q_value = curr_q_value + self.lr * (reward + self.gamma * next_best_q_value - curr_q_value)
+                # print(better_q_value)
+                curr_q_values[counter] = curr_q_value
+                better_q_values[counter] = better_q_value
+                counter += 1
 
             else:
                 # if done, there will be no more further q value. So formula becomes Q(s,a) + aplha*R
                 # Calculates both q_values
                 both_q_values = self.dqn_model(obs)
-                for curr_q_value in both_q_values:
-                    better_q_value = curr_q_value + self.lr * reward
-                    curr_q_values[counter] = curr_q_value
-                    better_q_values[counter] = better_q_value
-                    counter += 1
+                curr_q_value = torch.max(both_q_values)
+                # Calculate next q values and find the better q_value
+                next_best_q_value = torch.max(self.dqn_model(next_obs))
+                # print(curr_q_value)
+                better_q_value = curr_q_value + self.lr * reward
+                # print(better_q_value)
+                curr_q_values[counter] = curr_q_value
+                better_q_values[counter] = better_q_value
+                counter += 1
 
         # Have to check q_values and better q_values here
         # print(len(curr_q_values))
