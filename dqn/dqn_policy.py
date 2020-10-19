@@ -1,3 +1,5 @@
+import random
+
 import torch
 import numpy as np
 import collections
@@ -20,6 +22,10 @@ class DQNPolicy(Policy):
 
         # Discount value
         self.gamma = self.config["gamma"]
+
+        # Epsilon value
+        self.epsilon = self.config["epsilon"]
+        self.eps_decay = self.config["eps_decay"]
 
         # GPU settings
         self.use_cuda = torch.cuda.is_available()
@@ -58,12 +64,19 @@ class DQNPolicy(Policy):
         obs_batch_t = torch.tensor(obs_batch).type(torch.FloatTensor)
         # for obs in obs_batch:
         # print(obs)
-        q_values = self.dqn_model(obs_batch_t)
+        action = self.action_space.sample()
+        print(action)
+        print(self.bla)
+        if random.random() < self.epsilon:
+            action = self.action_space.sample()
+            print(action)
+        else:
+            q_values = self.dqn_model(obs_batch_t)
+            action = torch.argmax(q_values).item()
         # print(q_values)
-        # Nog E-greedy exploration aan toevoegen
-        action = torch.argmax(q_values).item()
         # print(action)
-
+        # Gaat epsilon laten decayen totdat deze kleiner dan 0.01 wordt, omdat we anders nooit meer random een actie gaan kiezen
+        self.epsilon = max(self.epsilon * self.eps_decay, 0.01)
         # self.action_space.sample() for _ in obs_batch
         return [action], [], {}
 
@@ -122,14 +135,14 @@ class DQNPolicy(Policy):
                     counter += 1
 
         # Have to check q_values and better q_values here
-        #print(curr_q_values)
-        #print(better_q_values)
+        # print(curr_q_values)
+        # print(better_q_values)
         loss = self.loss_calculator(curr_q_values, better_q_values)
-        #print(loss)
+        # print(loss)
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-        #print(self.bla)
+        # print(self.bla)
         return {"learner_stats": {"default_policy/loss": loss.detach()}}
 
     def get_weights(self):

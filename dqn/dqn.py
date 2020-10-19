@@ -16,9 +16,10 @@ DEFAULT_CONFIG = with_common_config({
     # Parameters Agent
     ########################################
 
-    #Met tune hyperparameters vinden
     "lr": 0,
     "buffer_size": 600,
+    "epsilon": 0.4,
+    "eps_decay":0.99,
 
     "dqn_model": {
         "custom_model": "?",
