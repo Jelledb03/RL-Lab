@@ -25,7 +25,7 @@ if __name__ == "__main__":
             ########################################
             # Parameters Agent
             ########################################
-            "lr": 0.001,
+            "lr": 0.05,
             # "lr": tune.grid_search([0.5, 1, 2]),
             # gamma is the discount value
             "gamma": 0.7,
