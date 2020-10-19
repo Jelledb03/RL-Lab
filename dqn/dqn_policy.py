@@ -64,19 +64,20 @@ class DQNPolicy(Policy):
         obs_batch_t = torch.tensor(obs_batch).type(torch.FloatTensor)
         # for obs in obs_batch:
         # print(obs)
-        action = self.action_space.sample()
-        print(action)
-        print(self.bla)
         if random.random() < self.epsilon:
             action = self.action_space.sample()
-            print(action)
+            print("random")
         else:
             q_values = self.dqn_model(obs_batch_t)
             action = torch.argmax(q_values).item()
+            print("niet random")
+        print(action)
         # print(q_values)
         # print(action)
         # Gaat epsilon laten decayen totdat deze kleiner dan 0.01 wordt, omdat we anders nooit meer random een actie gaan kiezen
         self.epsilon = max(self.epsilon * self.eps_decay, 0.01)
+        print(self.epsilon)
+        print(self.bla)
         # self.action_space.sample() for _ in obs_batch
         return [action], [], {}
 
@@ -133,6 +134,9 @@ class DQNPolicy(Policy):
                     curr_q_values[counter] = curr_q_value
                     better_q_values[counter] = better_q_value
                     counter += 1
+
+        #Have to always include a couple of entries from experience buffer in here?
+
 
         # Have to check q_values and better q_values here
         # print(curr_q_values)
