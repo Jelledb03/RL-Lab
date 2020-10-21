@@ -14,7 +14,7 @@ if __name__ == "__main__":
         DQNTrainer,
         # checkpoint_freq=10,
         checkpoint_at_end=True,
-        stop={"episode_reward_mean": 250},
+        stop={"episode_reward_mean": 280},
         config={
             "num_gpus": 0,
             "num_workers": 1,
@@ -34,6 +34,7 @@ if __name__ == "__main__":
             "gamma": 0.7,
             # "gamma": tune.grid_search([0.7, 1, 0.9]),
             "buffer_size": 4000,
+            "buffer_slice_size": 5,
 
             "dqn_model": {
                 "custom_model": "DQNModel",

@@ -19,7 +19,8 @@ DEFAULT_CONFIG = with_common_config({
     "lr": 0,
     "buffer_size": 600,
     "epsilon": 0.4,
-    "eps_decay":0.99,
+    "eps_decay": 0.99,
+    "buffer_slice_size": 50,
 
     "dqn_model": {
         "custom_model": "?",
