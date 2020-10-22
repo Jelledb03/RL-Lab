@@ -34,7 +34,7 @@ if __name__ == "__main__":
             "gamma": 0.7,
             # "gamma": tune.grid_search([0.7, 1, 0.9]),
             "buffer_size": 4000,
-            "buffer_slice_size": 5,
+            "buffer_slice_size": 0,
 
             "dqn_model": {
                 "custom_model": "DQNModel",
