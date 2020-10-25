@@ -102,7 +102,10 @@ class DQNPolicy(Policy):
         # print(self.experience_buffer)
 
         # Takes buffer_slice_size number of experiences out of the experience buffer
-        experience_batch = random.sample(list(self.experience_buffer), self.buffer_slice_size)
+        # print(len(self.experience_buffer))
+        experience_batch = []
+        if len(self.experience_buffer) > self.buffer_slice_size:
+            experience_batch = random.sample(list(self.experience_buffer), self.buffer_slice_size)
         # print(experience_batch)
         # print(self.bla)
 
@@ -152,8 +155,6 @@ class DQNPolicy(Policy):
                     better_q_values[counter] = better_q_value
                     counter += 1
 
-
-
         # Have to always include a couple of entries from experience buffer in here?
         for experience in experience_batch:
             obs = experience[0]
@@ -186,7 +187,6 @@ class DQNPolicy(Policy):
                     better_q_values[counter] = better_q_value
                     counter += 1
 
-
         # Have to check q_values and better q_values here
         # print(curr_q_values)
         # print(better_q_values)
@@ -197,32 +197,6 @@ class DQNPolicy(Policy):
         self.optimizer.step()
         # print(self.bla)
         return {"learner_stats": {"default_policy/loss": loss.detach()}}
-
-    def add_q_values(self, obs, reward, next_obs, done, counter, curr_q_values, better_q_values):
-        if not done:
-            # Calculates both q_values
-            both_q_values = self.dqn_model(obs)
-            for curr_q_value in both_q_values:
-                # Calculate next q values and find the better q_value
-                next_best_q_value = torch.max(self.dqn_model(next_obs))
-                # print(curr_q_value)
-                better_q_value = reward + self.gamma * next_best_q_value
-                # print(better_q_value)
-                curr_q_values[counter] = curr_q_value
-                better_q_values[counter] = better_q_value
-                counter += 1
-
-        else:
-            # if done, there will be no more further q value. So formula becomes Q(s,a) + aplha*R
-            # Calculates both q_values
-            both_q_values = self.dqn_model(obs)
-            for curr_q_value in both_q_values:
-                # print(curr_q_value)
-                better_q_value = reward
-                # print(better_q_value)
-                curr_q_values[counter] = curr_q_value
-                better_q_values[counter] = better_q_value
-                counter += 1
 
     def get_weights(self):
         # Trainer function

@@ -11,10 +11,10 @@ from dqn import DQNTrainer, DQNModel
 if __name__ == "__main__":
 
     # Settings
-    folder = "/home/jelle/ray_results/DQNAlgorithm/DQNAlgorithm_CartPole-v1_fb282_00000_0_2020-10-21_08-56-28"
+    folder = "/home/jelle/ray_results/DQNAlgorithm/DQNAlgorithm_CartPole-v1_74d5b_00000_0_2020-10-25_10-49-40"
     env_name = "CartPole-v1"
-    checkpoint = 1362
-    num_episodes = 10
+    checkpoint = 1852
+    num_episodes = 100
 
     # Def env
     env = gym.make(env_name)
